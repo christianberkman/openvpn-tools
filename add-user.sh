@@ -86,12 +86,12 @@ read -p "Do you want to set a passphrase for the configuration file? [y/N]: " -e
 	# With password
 	if [[ "$SETPASS" = 'y' || "$SETPASS" = 'Y' ]]; then
 		cd /etc/openvpn/easy-rsa/
-		/easyrsa build-client-full $NEWUSER set-rsa-pass
+		./easyrsa build-client-full $NEWUSER set-rsa-pass
 		newclient $NEWUSER
 	# Without password
 	else
 		cd /etc/openvpn/easy-rsa/
-		/easyrsa build-client-full $NEWUSER nopass
+		./easyrsa build-client-full $NEWUSER nopass
 		newclient $NEWUSER
 	fi
 
