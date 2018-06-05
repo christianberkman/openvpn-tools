@@ -2,7 +2,7 @@
 #
 # openvpn-clients
 # https://github.com/christianberkman/openvpn-clients
-# 
+#
 # by Christian Berkman
 # 2018-06-04
 #
@@ -42,7 +42,7 @@ then
 fi
 
 # Display with less
-if [ "$1" = "less" ]; 
+if [ "$1" = "less" ];
 then
 	cat $TMPPATH/$TMPFILE.3 | column -t -s , | less -S
 fi
@@ -52,4 +52,3 @@ rm $TMPPATH/$TMPFILE*
 
 # Exit
 exit
-
