@@ -10,6 +10,7 @@ Add a user to an OpenVPN install with optional password
 
 ### list-clients
 List clients connected to an OpenVPN server
+
 Options:
 * `./list-clients.sh` print a simple list
 * `./list-clients.sh less` print a scrollable list using less
