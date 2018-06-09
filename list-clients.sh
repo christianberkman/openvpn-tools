@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # openvpn-tools/list-clients.sh
-# List clients connected to an OpenVPN server installed with nyr/openvpn-install
+# List clients connected to an OpenVPN server
 #
 # https://github.com/christianberkman/openvpn-tools
 #

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # openvpn-tools/openvz-fix.sh
-# Apply a fix for OpenVPN to run inside an OpenVZ container
+# Add a user to an OpenVPN install with optional password
 #
 # https://github.com/christianberkman/openvpn-tools
 #
