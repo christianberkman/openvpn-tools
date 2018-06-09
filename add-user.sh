@@ -22,7 +22,7 @@ fi
 		# Check
 		checkuser $READUSER
 		if [[ $? == 0 ]]; then
-			error "Username contains illigal characters"
+			error "Username contains illegal characters"
 			readuser
 		fi
 	}
