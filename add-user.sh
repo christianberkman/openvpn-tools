@@ -1,25 +1,19 @@
 #!/bin/bash
 #
-# openvpn-clients
-# https://github.com/christianberkman/openvpn-clients
+# openvpn-tools/openvz-fix.sh
+# Apply a fix for OpenVPN to run inside an OpenVZ container
 #
-# by Christian Berkman
-# 2018-06-05
+# https://github.com/christianberkman/openvpn-tools
 #
+# 2018-06-09 by Christian Berkman
+
+# Are we root?
+if [[ "$EUID" -ne 0 ]]; then
+	echo -e "Script needs to be run with root privileges"
+	exit
+fi
 
 # Functions
-	# Header
-	header () {
-		clear
-		echo -e "openvpn-tools \e[1m$1\e[0m"
-		printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-		echo
-	}
-	# Error
-	error (){
-		echo -e "\e[1merror\e[0m\t$1"
-	}
-
 	# Read user from prompt
 	readuser (){
 		# Read from CLI
@@ -61,15 +55,6 @@
 		cat /etc/openvpn/ta.key >> ~/$1.ovpn
 		echo "</tls-auth>" >> ~/$1.ovpn
 }
-
-# Nice header
-header "add-user"
-
-# Are we root?
-if [[ "$EUID" -ne 0 ]]; then
-	echo -e "\e[1mError\e[0m\topenvpn-clients needs to be run as root"
-	exit
-fi
 
 # Username given as argument?
 checkuser $1

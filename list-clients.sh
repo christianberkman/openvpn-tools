@@ -1,27 +1,27 @@
 #!/bin/bash
 #
-# openvpn-clients
-# https://github.com/christianberkman/openvpn-clients
+# openvpn-tools/list-clients.sh
+# List clients connected to an OpenVPN server installed with nyr/openvpn-install
 #
-# by Christian Berkman
-# 2018-06-04
+# https://github.com/christianberkman/openvpn-tools
 #
+# 2018-06-09 by Christian Berkman
+
+# Are we root?
+if [[ "$EUID" -ne 0 ]]; then
+	echo -e "Script needs to be run with root privilegs"
+	exit
+fi
 
 # Settings
 LOG="/etc/openvpn/openvpn-status.log"
 TMPPATH="$HOME"
 TMPFILE=".openvpn-clients-tmp"
 
-# Are we root?
-if [[ "$EUID" -ne 0 ]]; then
-	echo -e "\e[1mError\e[0m\topenvpn-clients needs to be run as root"
-	exit
-fi
-
 # Log file exists?
 if [[ ! -e $LOG ]];
 then
-	echo -e "\e[1mError\e[0m\tCannot find logfile $LOG"
+	echo -"Error: Cannot find logfile $LOG"
 	exit
 fi
 
@@ -33,10 +33,6 @@ sed "\$ d" $TMPPATH/$TMPFILE.2 > $TMPPATH/$TMPFILE.3
 # Simple view
 if [ -z $1 ];
 then
-	# Nice Header
-	echo -e "\e[1mOpenVPN Client List\e[0m"
-	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
-
 	# Display with columns
 	cat $TMPPATH/$TMPFILE.3 | column -t -s ,
 fi

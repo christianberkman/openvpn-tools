@@ -9,7 +9,7 @@
 
 # Are we root?
 if [[ "$EUID" -ne 0 ]]; then
-	echo -e "\e[1mError\e[0m\topenvpn-clients needs to be run as root"
+	echo "Script needs to be run with root privileges"
 	exit
 fi
 
