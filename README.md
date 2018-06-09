@@ -17,4 +17,5 @@ Options:
 
 ### openvz-fix
 Apply a fix for OpenVPN to run inside an OpenVZ container
-*Caution* this script makes a change to `/var/lib/systemd/system/openvpn@.service`
+
+**Caution** this script makes a change to `/var/lib/systemd/system/openvpn@.service`
