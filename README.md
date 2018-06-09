@@ -19,3 +19,8 @@ Options:
 Apply a fix for OpenVPN to run inside an OpenVZ container
 
 **Caution** this script makes a change to `/var/lib/systemd/system/openvpn@.service`
+
+### redo-iptables
+Redo the iptables rules for the OpenVPN install
+
+
