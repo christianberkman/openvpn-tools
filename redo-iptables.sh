@@ -13,25 +13,34 @@ if [[ "$EUID" -ne 0 ]]; then
 	exit
 fi
 
+# Settings
+CONF=/etc/openvpn/server.conf
+
 # Intro
 echo "Please provide the following information of your OpenVPN server:"
 
 	# Port
-	PORT=1194
+	PORT=$(awk '/port/{print $NF}' $CONF)
 	read -p " Port Number: " -e -i $PORT PORT
 
 	# Protocol
-	PROTOCOL=udp
+	PROTOCOL=$(awk '/proto/{print $NF}' $CONF)
 	read -p " Protocol: " -e -i $PROTOCOL PROTOCOL
 
-# Set rules
-#iptables -D INPUT -p $PROTOCOL --dport $PORT -j ACCEPT
-#iptables -D FORWARD -s 10.8.0.0/24 -j ACCEPT
-#iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
-
-# Done
+# Confirm
 echo
-echo "New rules loaded in iptables:"
-echo 
-iptables -L --line-numbers
+echo "About to set iptables rules for $PORT and protocol $PROTOCOL."
+read -p "Are you sure? (y/n)" -i SURE
+if [[ "$SURE" = "y" ]]
+then
+	# Set rules
+	iptables -D INPUT -p $PROTOCOL --dport $PORT -j ACCEPT
+	iptables -D FORWARD -s 10.8.0.0/24 -j ACCEPT
+	iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 
+	# Done
+	echo
+	echo "New rules loaded in iptables:"
+	echo 
+	iptables -L --line-numbers
+fi
