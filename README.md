@@ -23,4 +23,6 @@ Apply a fix for OpenVPN to run inside an OpenVZ container
 ### redo-iptables
 Redo the iptables rules for the OpenVPN install
 
+### restart-services
+Restart the openvpn and openvpn@server services
 
