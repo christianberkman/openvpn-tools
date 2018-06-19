@@ -8,6 +8,9 @@ The following scripts are available
 ### add-user
 Add a user to an OpenVPN install with optional password
 
+### iptables-redo
+Redo the iptables rules for the OpenVPN install
+
 ### list-clients
 List clients connected to an OpenVPN server
 
@@ -19,9 +22,6 @@ Options:
 Apply a fix for OpenVPN to run inside an OpenVZ container
 
 **Caution** this script makes a change to `/var/lib/systemd/system/openvpn@.service`
-
-### redo-iptables
-Redo the iptables rules for the OpenVPN install
 
 ### restart-services
 Restart the openvpn and openvpn@server services
