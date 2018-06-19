@@ -17,7 +17,11 @@ fi
 CONF=/etc/openvpn/server.conf
 
 # Intro
-echo "Please provide the following information of your OpenVPN server:"
+echo "Please confirm the following information of your OpenVPN server:"
+
+	# IP
+	IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+	read -p " Public IP-Address: " -e -i $IP IP
 
 	# Port
 	PORT=$(awk '/port/{print $NF}' $CONF)
@@ -26,17 +30,21 @@ echo "Please provide the following information of your OpenVPN server:"
 	# Protocol
 	PROTOCOL=$(awk '/proto/{print $NF}' $CONF)
 	read -p " Protocol: " -e -i $PROTOCOL PROTOCOL
-
+	
 # Confirm
 echo
-echo "About to set iptables rules for $PORT and protocol $PROTOCOL."
-read -p "Are you sure? (y/n)" -i SURE
-if [[ "$SURE" = "y" ]]
+echo "About to set iptables rules for"
+echo " Public IP-Address: $IP"
+echo " Port $PORT ($PROTOCOL)"
+echo
+read -p "Are you sure? (y/n) " SURE
+if [[ "$SURE" = 'y' || "$SURE" = 'Y' ]];
 then
 	# Set rules
-	iptables -D INPUT -p $PROTOCOL --dport $PORT -j ACCEPT
-	iptables -D FORWARD -s 10.8.0.0/24 -j ACCEPT
-	iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+	iptables -I INPUT -p udp --dport $PORT -j ACCEPT
+	iptables -t nat -A POSTROUTING -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP
+	iptables -I FORWARD -s 10.8.0.0/24 -j ACCEPT
+	iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 	# Done
 	echo
